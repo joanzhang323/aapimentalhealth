@@ -56,18 +56,19 @@ SuicideChart.prototype.initVis = function() {
 SuicideChart.prototype.wrangleData = function() {
     var vis = this;
 
-    vis.displayData_SuicideThink = vis.data.filter(function (person) {
+    console.log(vis.displayData);
+
+    vis.displayData_SuicideThink = vis.displayData.filter(function (person) {
         return person.MHSUITHK == 1;
     });
-    vis.displayData_SuicidePlan = vis.data.filter(function (person) {
+    vis.displayData_SuicidePlan = vis.displayData.filter(function (person) {
         return person.MHSUIPLN == 1;
     });
-    vis.displayData_SuicideAttempt = vis.data.filter(function (person) {
+    vis.displayData_SuicideAttempt = vis.displayData.filter(function (person) {
         return person.MHSUITRY == 1;
     });
 
-
-
+    console.log(vis.displayData_SuicideAttempt);
     // Sort data for mental illness - yes mental illness to no mental illness
     vis.displayData_SuicideThink.sort(function (a,b) { return b.MHSUIPLN - a.MHSUIPLN });
 

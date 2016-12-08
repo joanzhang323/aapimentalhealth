@@ -22,9 +22,13 @@
    <link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/slick.css">
 	<link rel="stylesheet" href="css/slick-theme.css">
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+	<link rel="stylesheet" href="css/jquery-ui.structure.min.css">
+	<link rel="stylesheet" href="css/jquery-ui.theme.min.css">
 
-   <!-- script
-   ================================================== -->
+
+	<!-- script
+    ================================================== -->
 	<script src="js/modernizr.js"></script>
 	<script src="js/pace.min.js"></script>
 
@@ -124,8 +128,11 @@
 
 	   			<p class="lead">The Model Minority Myth is a stereotype that inaccurately portrays Asian Americans as successfully integrating into mainstream culture and having overcome the challenges of racial bias</p>
 
-	   		</div>   		
+				<h1 align="center">Visualization for racial comparisons</h1>
+
+			</div>
 	   	</div>
+
 
 			<div class="row features-wrap">
 					     		
@@ -175,62 +182,71 @@
 						</div> 	         	 
 
 					</div> <!-- /bgrid -->
+				</div>
+				</div>
 			
 		</section> <!-- /features -->
 
-	   <!-- testimonials
+
+	   <!-- Visualization #1
 ================================================== -->
-	   <section id="testimonials">
-		   <div class="row testimonial-content">
-			   <div class="col-twelve">
+	   <section id="vis1">
+	   <div class="container-fluid">
+		   <!-- Filters -->
+		   <div class="col-md-2" id="filtersRacialComparison">
+			   <!-- Age -->
+			   Age: <span id="rangeSlider"></span><br/><br/>
+			   <div id="sliderAge"></div><br/>
 
-				   <h2 class="h01 animate-this">
-					   Gallery
-				   </h2>
-
-				   <div id="testimonial-slider" class="flexslider animate-this">
-					   <ul class="slides">
-						   <li>
-							   <p>&ldquo;Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle. As with all matters of the heart, you'll know when you find it.&rdquo;</p>
-							   <p class="author-info">&mdash; Steve Jobs</p>
-						   </li>
-						   <li>
-							   <p>&ldquo;Good design is as little design as possible. Less, but better - because it concentrates on the essential aspects, and the products are not burdened with non-essentials. Back to purity, back to simplicity..&rdquo;</p>
-							   <p class="author-info">&mdash; Dieter Rams</p>
-						   </li>
-						   <li>
-							   <p>&ldquo;A fundamental part of that is making mistakes together. There's no learning without trying lots of ideas and failing lots of times.&rdquo;</p>
-							   <p class="author-info">&mdash; Jony Ive</p>
-						   </li>
-					   </ul>
-				   </div>
-
-				   <div class="flexslider-controls animate-this">
-					   <ul class="flex-control-nav">
-						   <li><img src="images/female1_student.jpg" alt=""></li>
-						   <li><img src="images/female2_student.jpg" alt=""></li>
-						   <li><img src="images/male2_student.jpg" alt=""></li>
-						   <li><img src="images/female3_student.jpg" alt=""></li>
-						   <li><img src="images/male8_student.jpg" alt=""></li>
-						   <li><img src="images/female4_student.jpg" alt=""></li>
-						   <li><img src="images/male_student.jpg" alt=""></li>
-						   <li><img src="images/female5_student.jpg" alt=""></li>
-						   <li><img src="images/male3_student.jpg" alt=""></li>
-						   <li><img src="images/female6_student.jpg" alt=""></li>
-						   <li><img src="images/male4_student.jpg" alt=""></li>
-						   <li><img src="images/female7_student.jpg" alt=""></li>
-						   <li><img src="images/female8_student.jpg" alt=""></li>
-						   <li><img src="images/male5_student.jpg" alt=""></li>
-						   <li><img src="images/female9_student.jpg" alt=""></li>
-						   <li><img src="images/male6_student.jpg" alt=""></li>
-						   <li><img src="images/female10_student.jpg" alt=""></li>
-						   <li><img src="images/male7_student.jpg" alt=""></li>
-					   </ul>
-				   </div>
-
+			   <!-- Gender -->
+			   <div class="checkbox" id="genderFilter" onchange="selectionChanged()">
+				   Gender:<br>
+				   <label><input type="checkbox" name="male" class="genderCheckBox" value="1" />Male</label><br>
+				   <label><input type="checkbox" name="female" class="genderCheckBox" value="2" />Female</label><br>
 			   </div>
+
+			   <!-- Education completed -->
+			   <div class="checkbox" id="educationFilter" onchange="selectionChanged()">
+				   Education Completed:<br>
+				   <label><input type="checkbox" name="lessHS" class="educationCheckBox" value="1" />Less than high school</label><br>
+				   <label><input type="checkbox" name="HS" class="educationCheckBox" value="2" />High School grad</label><br>
+				   <label><input type="checkbox" name="someCol" class="educationCheckBox" value="3" />Some College</label><br>
+				   <label><input type="checkbox" name="Col" class="educationCheckBox" value="4" />College grad</label><br>
+			   </div>
+
+			   <!-- Total family income -->
+			   <div class="checkbox" id="incomeFilter" onchange="selectionChanged()">
+				   Total Family Income:<br>
+				   <label><input type="checkbox" name="less10K" class="incomeCheckBox" value="1" />Less than $10,000</label><br>
+				   <label><input type="checkbox" name="10K" class="incomeCheckBox" value="2" />$10,000 - $19,999</label><br>
+				   <label><input type="checkbox" name="20K" class="incomeCheckBox" value="3" />$20,000 - $29,999</label><br>
+				   <label><input type="checkbox" name="30K" class="incomeCheckBox" value="4" />$30,000 - $39,999</label><br>
+				   <label><input type="checkbox" name="40K" class="incomeCheckBox" value="5" />$40,000 - $49,999</label><br>
+				   <label><input type="checkbox" name="50K" class="incomeCheckBox" value="6" />$50,000 - $74,999</label><br>
+				   <label><input type="checkbox" name="more75K" class="incomeCheckBox" value="7" />$75,000 or more</label><br>
+			   </div>
+
+			   <!-- AA or PI -->
+			   <br>
+			   <button type="button" class="btn btn-primary" id="aapiButton" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="buttonChanged()">
+				   Show AA and PI separately
+			   </button>
+
+
+
 		   </div>
-	   </section> <!-- /testimonials -->
+
+		   <!-- Visualization placeholder for RacialComparison -->
+		   <div id="racialComparison" class="col-md-10">
+			   <!-- Error Dialog
+               <div id="dialogRacialComparison" title="Unable to Filter" class="hidden">
+                   <p>Sorry! We don't have the data for that combination of filters!</p>
+               </div>
+               -->
+		   </div>
+	   </div>
+
+	   </section>
 
 	   <!-- stats
    ================================================== -->
@@ -331,6 +347,81 @@
 		   </div> <!-- /row -->
 
 	   </section> <!-- /stats -->
+
+	   <!-- testimonials
+================================================== -->
+	   <section id="testimonials">
+		   <div class="row testimonial-content">
+			   <div class="col-twelve">
+
+				   <h2 class="h01 animate-this">
+					   Gallery
+				   </h2>
+
+				   <div id="testimonial-slider" class="flexslider animate-this">
+					   <ul class="slides">
+						   <li>
+							   <p>&ldquo;Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle. As with all matters of the heart, you'll know when you find it.&rdquo;</p>
+							   <p class="author-info">&mdash; Steve Jobs</p>
+						   </li>
+						   <li>
+							   <p>&ldquo;Good design is as little design as possible. Less, but better - because it concentrates on the essential aspects, and the products are not burdened with non-essentials. Back to purity, back to simplicity..&rdquo;</p>
+							   <p class="author-info">&mdash; Dieter Rams</p>
+						   </li>
+						   <li>
+							   <p>&ldquo;A fundamental part of that is making mistakes together. There's no learning without trying lots of ideas and failing lots of times.&rdquo;</p>
+							   <p class="author-info">&mdash; Jony Ive</p>
+						   </li>
+					   </ul>
+				   </div>
+
+				   <div class="flexslider-controls animate-this">
+					   <ul class="flex-control-nav">
+						   <li><img src="images/female1_student.jpg" alt=""></li>
+						   <li><img src="images/female2_student.jpg" alt=""></li>
+						   <li><img src="images/male2_student.jpg" alt=""></li>
+						   <li><img src="images/female3_student.jpg" alt=""></li>
+						   <li><img src="images/male8_student.jpg" alt=""></li>
+						   <li><img src="images/female4_student.jpg" alt=""></li>
+						   <li><img src="images/male_student.jpg" alt=""></li>
+						   <li><img src="images/female5_student.jpg" alt=""></li>
+						   <li><img src="images/male3_student.jpg" alt=""></li>
+						   <li><img src="images/female6_student.jpg" alt=""></li>
+						   <li><img src="images/male4_student.jpg" alt=""></li>
+						   <li><img src="images/female7_student.jpg" alt=""></li>
+						   <li><img src="images/female8_student.jpg" alt=""></li>
+						   <li><img src="images/male5_student.jpg" alt=""></li>
+						   <li><img src="images/female9_student.jpg" alt=""></li>
+						   <li><img src="images/male6_student.jpg" alt=""></li>
+						   <li><img src="images/female10_student.jpg" alt=""></li>
+						   <li><img src="images/male7_student.jpg" alt=""></li>
+						   <li><img src="images/male9_student.jpg" alt=""></li>
+						   <li><img src="images/male10_student.jpg" alt=""></li>
+						   <li><img src="images/female11_student.jpg" alt=""></li>
+						   <li><img src="images/female12_student.jpg" alt=""></li>
+						   <li><img src="images/female13_student.jpg" alt=""></li>
+						   <li><img src="images/male11_student.jpg" alt=""></li>
+						   <li><img src="images/female14_student.jpg" alt=""></li>
+						   <li><img src="images/male12_student.jpg" alt=""></li>
+						   <li><img src="images/female15_student.jpg" alt=""></li>
+						   <li><img src="images/female16_student.jpg" alt=""></li>
+						   <li><img src="images/male13_student.jpg" alt=""></li>
+						   <li><img src="images/female17_student.jpg" alt=""></li>
+						   <li><img src="images/female18_student.jpg" alt=""></li>
+						   <li><img src="images/female19_student.jpg" alt=""></li>
+						   <li><img src="images/male14_student.jpg" alt=""></li>
+						   <li><img src="images/female20_student.jpg" alt=""></li>
+						   <li><img src="images/female21_student.jpg" alt=""></li>
+						   <li><img src="images/male15_student.jpg" alt=""></li>
+						   <li><img src="images/female22_student.jpg" alt=""></li>
+						   <li><img src="images/female23_student.jpg" alt=""></li>
+
+					   </ul>
+				   </div>
+
+			   </div>
+		   </div>
+	   </section> <!-- /testimonials -->
 
 
 	   <!-- infos
@@ -559,11 +650,17 @@
    <!-- Java Script
    ================================================== --> 
    <script src="js/jquery-2.1.3.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
    <script src="js/plugins.js"></script>
 	<script src="js/slick.min.js"></script>
 	<script src="js/queue.v1.min.js"></script>
 	<script src="js/d3.min.js"></script>
+
+	<!-- Visualization objects -->
+	<script src="js/racialComparison.js"></script>
 	<script src="js/suicideChart.js"></script>
+
+	<!-- Load data, create visualizations -->
 	<script src="js/main.js"></script>
 
 	<script type="text/javascript">
