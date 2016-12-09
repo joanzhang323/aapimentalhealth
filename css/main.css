@@ -666,9 +666,8 @@ select:focus {
 
 label,
 legend {
-	font-family: "roboto-bold", sans-serif;
+	font-family: "roboto", sans-serif;
 	font-size: 1.4rem;
-	margin-bottom: .6rem;
 	color: black;
 	display: block;
 }
@@ -2097,6 +2096,16 @@ header h1 {
 	padding: 15rem 0 12rem;
 	background-color: #FFFFFF;
 	overflow: hidden;
+}
+
+#filtersRacialComparison{
+	line-height: 1;
+}
+
+.filterlabel{
+	line-height: 1;
+	margin-bottom: 0rem;
+	margin-top:2rem;
 }
 
 

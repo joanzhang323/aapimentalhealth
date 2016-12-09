@@ -30,7 +30,7 @@ SuicideChart.prototype.initVis = function() {
     vis.margin = { top: 10, right: 10, bottom: 30, left: 20 };
 
     vis.width = 1000 - vis.margin.left - vis.margin.right,
-        vis.height = 500 - vis.margin.top - vis.margin.bottom;
+        vis.height = 1000 - vis.margin.top - vis.margin.bottom;
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -42,7 +42,7 @@ SuicideChart.prototype.initVis = function() {
 
     // Filter data for Asians
     vis.displayData = vis.data.filter(function (person) {
-        return person.NEWRACE2 == 5;
+        return person.RACEGRP == 5;
     });
 
     vis.wrangleData();
@@ -101,6 +101,7 @@ SuicideChart.prototype.updateVis = function() {
 
     vis.circlesPerRow = 7;
     vis.radius = 20;
+    var counter = 1;
 
    vis.cells.enter().append("rect")
         .attr("class", "suicideCells")
@@ -109,7 +110,24 @@ SuicideChart.prototype.updateVis = function() {
         .attr("width", 20)
         .attr("height",20)
         .attr("fill", "red")
-        .attr("opacity", 0.2);
+        .attr("opacity", 0.3)
+       .on("mouseover", function(){
+           d3.select(this)
+               .attr("width",100)
+               .attr("height",100)
+               .attr("opacity",1)
+               .style("fill", function(d){
+                       console.log("url(#"+d.IMG+")");
+                       return "url(#"+d.IMG+")";
+               });
+       })
+       .on("mouseout", function(){
+           d3.select(this)
+               .attr("width",20)
+               .attr("height",20)
+               .attr("opacity",0.3)
+               .style("fill", "red");
+       });
 
     // Add circles to chart
     vis.cells2 = vis.svg.selectAll(".suicideCells2")
@@ -203,14 +221,14 @@ SuicideChart.prototype.onSelectionChange = function(button){
         vis.cells
             .transition()
             .duration(2000)
-            .attr("y", function (d, index) { return Math.floor(index/vis.circlesPerRow)*2*vis.radius + 13*vis.radius; });
+            .attr("y", function (d, index) { return Math.floor(index/vis.circlesPerRow)*2*vis.radius + 26*vis.radius; });
         vis.cells2
             .transition()
             .duration(3000)
             .attr("opacity",0.5)
             .attr("y", function (d, index) {
                 if(d.MHSUITHK == 1){
-                    return Math.floor(index/vis.circlesPerRow)*2*vis.radius + 13*vis.radius; }
+                    return Math.floor(index/vis.circlesPerRow)*2*vis.radius + 26*vis.radius; }
                 else{
                     return Math.floor(index/vis.circlesPerRow)*2*vis.radius + vis.radius; }
             });
@@ -219,7 +237,7 @@ SuicideChart.prototype.onSelectionChange = function(button){
             .duration(4000)
             .attr("y", function (d, index) {
                 if (d.MHSUITHK == 1) {
-                    return Math.floor(index / vis.circlesPerRow) * 2 * vis.radius + 13 * vis.radius;
+                    return Math.floor(index / vis.circlesPerRow) * 2 * vis.radius + 26 * vis.radius;
                 }
                 else {
                     return Math.floor(index / vis.circlesPerRow) * 2 * vis.radius + vis.radius;

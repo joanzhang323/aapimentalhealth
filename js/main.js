@@ -354,6 +354,8 @@ var codeBook;
 
 var suicideChart;
 
+var counter_female = 1;
+var counter_male = 1;
 
 // Counter for AAPI Button
 var counterAAPIButton = 0;
@@ -411,6 +413,23 @@ function createVis(error, mainData, metaData) {
 
 	// Assign code data to codeBook
 	codeBook = metaData;
+
+	//Add image name to data
+	allData.forEach(function(person){
+		if(person.IRSEX == 2 && person.RACEGRP == 5 && (person.MHSUITHK == 1 || person.MHSUIPLN == 1 || person.MHSUITRY ==1))
+			{
+				console.log(person);
+				person.IMG = "images/female" + counter_female + "_student.jpg";
+				console.log(person.IMG);
+				counter_female++;
+			}
+		else if (person.IRSEX == 1 && person.RACEGRP == 5 && (person.MHSUITHK == 1 || person.MHSUIPLN == 1 || person.MHSUITRY ==1)){
+			console.log(person);
+			person.IMG = "images/male" + counter_male + "_student.jpg";
+			console.log(person.IMG);
+			counter_male++;
+		}
+	})
 
 
 	// Instantiate Visualization
