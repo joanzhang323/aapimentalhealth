@@ -95,13 +95,13 @@ SuicideChart.prototype.updateVis = function() {
     console.log(vis.displayData_SuicidePlan);
     console.log(vis.displayData_SuicideAttempt);
 
+    vis.circlesPerRow = 7;
+    vis.radius = 20;
+
     // Add circles to chart
     vis.cells = vis.svg.selectAll(".suicideCells")
         .data(vis.displayData_SuicideThink);
 
-    vis.circlesPerRow = 7;
-    vis.radius = 20;
-    var counter = 1;
 
    vis.cells.enter().append("rect")
         .attr("class", "suicideCells")
@@ -113,21 +113,24 @@ SuicideChart.prototype.updateVis = function() {
         .attr("opacity", 0.3)
        .on("mouseover", function(){
            d3.select(this)
-               .attr("width",100)
-               .attr("height",100)
+               .attr("width",60)
+               .attr("height",60)
                .attr("opacity",1)
+               .attr("transform","translate(-20,-20)")
                .style("fill", function(d){
-                       console.log("url(#"+d.IMG+")");
-                       return "url(#"+d.IMG+")";
-               });
+                   console.log("url(#"+d.IMG+")");
+                   return "url(#"+d.IMG+")";
+               })
+               .attr("border-radius","20px")
        })
        .on("mouseout", function(){
            d3.select(this)
                .attr("width",20)
                .attr("height",20)
                .attr("opacity",0.3)
+               .attr("transform","translate(0,0)")
                .style("fill", "red");
-       });
+       })
 
     // Add circles to chart
     vis.cells2 = vis.svg.selectAll(".suicideCells2")
@@ -249,14 +252,14 @@ SuicideChart.prototype.onSelectionChange = function(button){
         vis.cells2
             .transition()
             .duration(2000)
-            .attr("y", function (d, index) { return Math.floor(index/vis.circlesPerRow)*2*vis.radius + 13*vis.radius; });
+            .attr("y", function (d, index) { return Math.floor(index/vis.circlesPerRow)*2*vis.radius + 26*vis.radius; });
 
         vis.cells3
             .transition()
             .duration(3000)
             .attr("y",function(d,index){
                 if(d.MHSUIPLN == 1){
-                    return Math.floor(index / vis.circlesPerRow) * 2 * vis.radius + 13 * vis.radius;
+                    return Math.floor(index / vis.circlesPerRow) * 2 * vis.radius + 26 * vis.radius;
                 }
                 else
                     return Math.floor(index / vis.circlesPerRow) * 2 * vis.radius + vis.radius;
@@ -267,7 +270,7 @@ SuicideChart.prototype.onSelectionChange = function(button){
             .transition()
             .duration(2000)
             .attr("y",function(d,index){
-                return Math.floor(index / vis.circlesPerRow) * 2 * vis.radius + 13 * vis.radius;
+                return Math.floor(index / vis.circlesPerRow) * 2 * vis.radius + 26 * vis.radius;
             });
 }
 

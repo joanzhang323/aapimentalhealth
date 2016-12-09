@@ -359,6 +359,7 @@ var counter_male = 1;
 
 // Counter for AAPI Button
 var counterAAPIButton = 0;
+var nationalMHAvg = 8021/53312;
 
 
 // Load data asynchronously
