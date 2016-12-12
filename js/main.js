@@ -357,10 +357,6 @@ var suicideChart;
 var counter_female = 1;
 var counter_male = 1;
 
-// Counter for AAPI Button
-var counterAAPIButton = 0;
-var nationalMHAvg = 8021/53312;
-
 
 // Load data asynchronously
 queue()
@@ -419,15 +415,15 @@ function createVis(error, mainData, metaData) {
 	allData.forEach(function(person){
 		if(person.IRSEX == 2 && person.RACEGRP == 5 && (person.MHSUITHK == 1 || person.MHSUIPLN == 1 || person.MHSUITRY ==1))
 			{
-				console.log(person);
+				//console.log(person);
 				person.IMG = "images/female" + counter_female + "_student.jpg";
-				console.log(person.IMG);
+				//console.log(person.IMG);
 				counter_female++;
 			}
 		else if (person.IRSEX == 1 && person.RACEGRP == 5 && (person.MHSUITHK == 1 || person.MHSUIPLN == 1 || person.MHSUITRY ==1)){
-			console.log(person);
+			//console.log(person);
 			person.IMG = "images/male" + counter_male + "_student.jpg";
-			console.log(person.IMG);
+			//console.log(person.IMG);
 			counter_male++;
 		}
 	})
@@ -442,24 +438,42 @@ function createVis(error, mainData, metaData) {
 
 
 /*
- * Filters - Age slider
+ * Filters - Age slider and Income slider
  * Borrowed and modified from https://www.youtube.com/watch?v=reNLCuaxFF8
  */
-$("#sliderAge").slider({
+$("#ageSlider").slider({
 	range: true,
 	min: 18,
-	max: 100,
-	values: [18, 100],
+	max: 73,
+	values: [18, 73],
+	step: 5,
 	slide: function (event, ui) {
-		$("#rangeSlider").html(ui.values[0] + " - " + ui.values[1] + " Years");
+		$("#rangeAgeSlider").html(ui.values[0] + " - " + ui.values[1] + " Years");
 	},
 	stop: function (event, ui) {
-		$("#rangeSlider").on("sliderchange", selectionChanged());
+		$("#rangeAgeSlider").on("sliderchange", selectionChanged());
 	}
 });
 
-$("#rangeSlider")
-	.html($("#sliderAge").slider("values", 0) + " - " + $( "#sliderAge").slider("values", 1) + " Years");
+$("#rangeAgeSlider")
+	.html($("#ageSlider").slider("values", 0) + " - " + $( "#ageSlider").slider("values", 1) + " Years");
+
+$("#incomeSlider").slider({
+	range: true,
+	min: 0,
+	max: 80000,
+	values: [0, 80000],
+	step: 10000,
+	slide: function (event, ui) {
+		$("#rangeIncomeSlider").html("$" + ui.values[0].toLocaleString() + " - $" + (ui.values[1] - 1).toLocaleString());
+	},
+	stop: function (event, ui) {
+		$("#rangeIncomeSlider").on("sliderchange", selectionChanged());
+	}
+});
+
+$("#rangeIncomeSlider")
+	.html("$" + $("#incomeSlider").slider("values", 0).toLocaleString() + " - $" + ($( "#incomeSlider").slider("values", 1) - 1).toLocaleString());
 
 
 
@@ -469,9 +483,10 @@ $("#rangeSlider")
  */
 function selectionChanged () {
 
+	/*
 	// get reference to checkboxes
 	var filters = $("#filtersRacialComparison input");
-	console.log(filters);
+	//console.log(filters);
 
 	// object of arrays storing the checked Check Box values
 	var checked = {};
@@ -487,9 +502,70 @@ function selectionChanged () {
 			}
 		}
 	}
+	*/
 
-	// Add age filters
-	var ageCodes = [];
+	// Object of arrays to store filter selections
+	var selected = {};
+	//console.log("trigger");
+
+	// Add selections from select list - mental health, education completed
+	var mentalHealthToggleSelection = +$("input[name='mentalHealthButtonOption']:checked").val();
+	if (mentalHealthToggleSelection == 1) {
+		selected.mhFilter = [1];
+	} else {
+		var mhSelectedArray = [];
+		$('#mentalHealthFilter option:selected').each(function(i, selected){
+			mhSelectedArray[i] = $(selected).val();
+		});
+		selected.mhFilter = mhSelectedArray;
+	}
+
+	var edComp = +$("#educationFilter").val();
+	if (edComp !== 0) {
+		selected.educationFilter = [edComp];
+	}
+
+	// Add selections from buttons - gender
+	var gender = +$("input[name='genderFilterOption']:checked").val();
+	if (gender !== 0) {
+		selected.genderFilter = [gender];
+	}
+
+	// Add selection from slider filters - age, income
+	var ageOrIncome = {
+		"age": ["#ageSlider", "#rangeAgeSlider", 7, "AGECAT", 0],
+		"income": ["#incomeSlider", "#rangeIncomeSlider", 8, "IRFAMIN3", 1]
+	};
+
+	function sliderSelections (filter) {
+		var selectedCodes = [];
+		var sliderLocation = $(ageOrIncome[filter][0]);
+		var min = sliderLocation.slider("values", 0);
+		var max = sliderLocation.slider("values", 1) - ageOrIncome[filter][4];
+		var minCode = 1;
+		var maxCode = ageOrIncome[filter][2];
+		var codeBookName = ageOrIncome[filter][3];
+		var objInCodeBook = codeBook[codeBookName].code;
+
+		for (var range in objInCodeBook) {
+			if ((objInCodeBook[range][0] <= min) && (objInCodeBook[range][1] >= min)) {
+				minCode = range;
+			}
+			if ((objInCodeBook[range][0] <= max) && (objInCodeBook[range][1] >= max)) {
+				maxCode = range;
+			}
+		}
+
+		for (var k = minCode; k <= maxCode; k++) { selectedCodes.push(+k); }
+
+		return selectedCodes;
+	}
+
+	selected.ageSlider = sliderSelections("age");
+	selected.incomeSlider = sliderSelections("income");
+
+	/*
+	var filterCodes = [];
 	var minAge = $("#sliderAge").slider("values", 0);
 	var maxAge = $("#sliderAge").slider("values", 1);
 	var minAgeCode = 1;
@@ -512,27 +588,24 @@ function selectionChanged () {
 		filteredAgeCodes.push(k);
 	}
 	checked.ageSlider = filteredAgeCodes;
+	*/
 
-
-	console.log(checked);
+	console.log(selected);
 
 
 	// Update visualizations
-	racialComparison.onSelectionChange(checked);
+	racialComparison.onSelectionChange(selected);
 }
 
+function mentalHealthToggleChanged() {
+	var mentalHealthToggleSelection = +$("input[name='mentalHealthButtonOption']:checked").val();
 
-
-/*
- * Filter for AAPI button
- */
-function buttonChanged () {
-	// Update counter
-	if (counterAAPIButton == 0) { counterAAPIButton = 1; } else { counterAAPIButton = 0; }
-	console.log(counterAAPIButton);
-
-	// Update visualizations
-	racialComparison.updateVis();
+	if (mentalHealthToggleSelection == 1) {
+		$("#mhrow2").hide();
+		selectionChanged();
+	} else {
+		$("#mhrow2").show();
+	}
 }
 
 

@@ -25,6 +25,7 @@
 	<link rel="stylesheet" href="css/jquery-ui.min.css">
 	<link rel="stylesheet" href="css/jquery-ui.structure.min.css">
 	<link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
 
 
 	<!-- script
@@ -194,19 +195,104 @@
 		   <h1 align="center">Visualization for racial comparisons</h1>
 
 		   <!-- Filters -->
-		   <div class="col-md-2" id="filtersRacialComparison">
-			   <!-- Age -->
-			   Age: <span id="rangeSlider"></span><br/><br/>
-			   <div id="sliderAge"></div><br/>
+		   <div class="row">
+			   <div class="col-md-3 step1RacialComp">
+				   <h4 class="filterlabel"> Step 1: Pick a mental illness</h4><br>
 
-			   <!-- Gender -->
-			   <div class="checkbox" id="genderFilter" onchange="selectionChanged()">
-				   <h4 class="filterlabel">Gender:</h4><br>
-				   <label><input type="checkbox" name="male" class="genderCheckBox" value="1" />  Male</label><br>
-				   <label><input type="checkbox" name="female" class="genderCheckBox" value="2" />  Female</label><br>
+				   <div class="row">
+					   <div class="col-md-11 col-md-offset-1">
+						   <label for="mentalHealthToggle">Mental health</label><br>
+						   <div class="btn-group" data-toggle="buttons" id="mentalHealthToggle" onchange="mentalHealthToggleChanged()">
+							   <label class="btn btn-primary active">
+								   <input type="radio" name="mentalHealthButtonOption" value="1" autocomplete="off" checked="checked">
+								   Overall
+							   </label>
+							   <label class="btn btn-primary">
+								   <input type="radio" name="mentalHealthButtonOption" value="2" autocomplete="off">
+								   Breakdown
+							   </label>
+						   </div>
+					   </div>
+				   </div>
+
+
+				   <div class="row" id="mhrow2" style="display: none">
+					   <!-- Mental Health -->
+					   <div class="form-group col-md-11 col-md-offset-1">
+						   <select class="form-control" id="mentalHealthFilter" onchange="selectionChanged()" multiple="multiple">
+							   <option name="Depression" value="2">Depression</option>
+							   <option name="Suicide" value="3">Suicide</option>
+							   <option name="Substance" value="4">Substance abuse</option>
+						   </select>
+					   </div>
+				   </div>
 			   </div>
 
-			   <!-- Education completed -->
+			   <div class="col-md-9 step2RacialComp">
+				   <h4 class="filterlabel">Step 2: Filter the population to examine</h4><br>
+
+				   <div class="row" id="step2RacialCompRow">
+					   <!-- Age -->
+					   <div class="col-md-3" id="ageFilter">
+						   <label for="ageFilter">Age</label>
+						   <span id="rangeAgeSlider"></span><br/><br/>
+						   <div id="ageSlider"></div>
+					   </div>
+
+					   <!-- Gender -->
+					   <div class="col-md-3" id="genderFilter">
+						   <label for="genderFilter">Gender</label>
+						   <div class="btn-group btn-group-sm" data-toggle="buttons" onchange="selectionChanged()">
+							   <label class="btn btn-primary active">
+								   <input type="radio" name="genderFilterOption" value="0" autocomplete="off" checked="checked">Both
+							   </label>
+							   <label class="btn btn-primary">
+								   <input type="radio" name="genderFilterOption" value="1" autocomplete="off">Male
+							   </label>
+							   <label class="btn btn-primary">
+								   <input type="radio" name="genderFilterOption" value="2" autocomplete="off">Female
+							   </label>
+						   </div>
+					   </div>
+
+					   <!-- Education completed -->
+					   <div class="col-md-3 form-group">
+						   <label for="educationFilter">Education</label>
+						   <select class="form-control" id="educationFilter" onchange="selectionChanged()">
+							   <option name="default" value="0">All levels of education completion</option>
+							   <option name="lessHS" value="1">Less than high school</option>
+							   <option name="HS" value="2">High School grad</option>
+							   <option name="someCol" value="3">Some College</option>
+							   <option name="Col" value="4">College graduate</option>
+						   </select>
+					   </div>
+
+					   <!-- Total family income -->
+					   <div class="col-md-3" id="incomeFilter">
+						   <label for="incomeFilter">Income</label>
+						   <span id="rangeIncomeSlider"></span><br/><br/>
+						   <div id="incomeSlider"></div>
+					   </div>
+				   </div>
+			   </div>
+		   </div>
+
+			   <!-- checkbox version of mental health filter
+			   <div class="checkbox" id="mentalHealthFilter" onchange="selectionChanged()">
+				   <h4 class="filterlabel">Mental Health:</h4><br>
+				   <!--<label><input type="checkbox" name="MH" class="mentalHealthCheckBox" value="1" />  Has mental health</label><br>
+				   <label><input type="checkbox" name="Depression" class="depressionCheckBox" value="1" />  Depression</label><br>
+				   <label><input type="checkbox" name="Suicide" class="suicideCheckBox" value="1" />  Suicide</label><br>
+				   <label><input type="checkbox" name="Substance" class="substanceCheckBox" value="1" />  Substance abuse</label>
+			   </div>
+
+			   <div class="checkbox" id="genderFilter" onchange="selectionChanged()">
+					   <h4 class="filterlabel">Gender:</h4><br>
+					   <label><input type="checkbox" name="male" class="genderCheckBox" value="1" />  Male</label><br>
+					   <label><input type="checkbox" name="female" class="genderCheckBox" value="2" />  Female</label><br>
+				</div>
+
+
 			   <div class="checkbox" id="educationFilter" onchange="selectionChanged()">
 				   <h4 class="filterlabel">Education Completed:</h4><br>
 				   <label><input type="checkbox" name="lessHS" class="educationCheckBox" value="1" />  Less than high school</label><br>
@@ -215,8 +301,7 @@
 				   <label><input type="checkbox" name="Col" class="educationCheckBox" value="4" />  College grad</label><br>
 			   </div>
 
-			   <!-- Total family income -->
-			   <div class="checkbox" id="incomeFilter" onchange="selectionChanged()">
+			   			   <div class="checkbox" id="incomeFilter" onchange="selectionChanged()">
 				   <h4 class="filterlabel">Total Family Income:</h4><br>
 				   <label><input type="checkbox" name="less10K" class="incomeCheckBox" value="1" />  Less than $10,000</label><br>
 				   <label><input type="checkbox" name="10K" class="incomeCheckBox" value="2" />  $10,000 - $19,999</label><br>
@@ -226,25 +311,22 @@
 				   <label><input type="checkbox" name="50K" class="incomeCheckBox" value="6" />  $50,000 - $74,999</label><br>
 				   <label><input type="checkbox" name="more75K" class="incomeCheckBox" value="7" />  $75,000 or more</label><br>
 			   </div>
+			   -->
 
-			   <!-- AA or PI -->
+			   <!-- AA or PI Button
 			   <br>
 			   <button type="button" class="btn btn-primary" id="aapiButton" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="buttonChanged()">
 				   Show AA and PI separately
 			   </button>
+			   -->
 
+			<div class="row" id="racialComparisonRow">
+				<!-- Legend -->
+				<div class="col-md-1"></div>
 
-
-		   </div>
-
-		   <!-- Visualization placeholder for RacialComparison -->
-		   <div id="racialComparison" class="col-md-10">
-			   <!-- Error Dialog
-               <div id="dialogRacialComparison" title="Unable to Filter" class="hidden">
-                   <p>Sorry! We don't have the data for that combination of filters!</p>
-               </div>
-               -->
-		   </div>
+				<!-- Visualization placeholder for RacialComparison -->
+				<div id="racialComparison" class="col-md-11"></div>
+			</div>
 	   </div>
 
 	   </section>
@@ -872,6 +954,7 @@
 	<script src="js/slick.min.js"></script>
 	<script src="js/queue.v1.min.js"></script>
 	<script src="js/d3.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 
 	<!-- Visualization objects -->
 	<script src="js/racialComparison.js"></script>

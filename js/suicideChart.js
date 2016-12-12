@@ -56,7 +56,7 @@ SuicideChart.prototype.initVis = function() {
 SuicideChart.prototype.wrangleData = function() {
     var vis = this;
 
-    console.log(vis.displayData);
+    //console.log(vis.displayData);
 
     vis.displayData_SuicideThink = vis.displayData.filter(function (person) {
         return person.MHSUITHK == 1;
@@ -68,7 +68,7 @@ SuicideChart.prototype.wrangleData = function() {
         return person.MHSUITRY == 1;
     });
 
-    console.log(vis.displayData_SuicideAttempt);
+    //console.log(vis.displayData_SuicideAttempt);
     // Sort data for mental illness - yes mental illness to no mental illness
     vis.displayData_SuicideThink.sort(function (a,b) { return b.MHSUIPLN - a.MHSUIPLN });
 
@@ -91,9 +91,9 @@ SuicideChart.prototype.wrangleData = function() {
 SuicideChart.prototype.updateVis = function() {
     var vis = this;
 
-    console.log(vis.displayData_SuicideThink);
-    console.log(vis.displayData_SuicidePlan);
-    console.log(vis.displayData_SuicideAttempt);
+    //console.log(vis.displayData_SuicideThink);
+    //console.log(vis.displayData_SuicidePlan);
+    //console.log(vis.displayData_SuicideAttempt);
 
     vis.circlesPerRow = 7;
     vis.radius = 20;
@@ -118,7 +118,7 @@ SuicideChart.prototype.updateVis = function() {
                .attr("opacity",1)
                .attr("transform","translate(-20,-20)")
                .style("fill", function(d){
-                   console.log("url(#"+d.IMG+")");
+                   //console.log("url(#"+d.IMG+")");
                    return "url(#"+d.IMG+")";
                })
                .attr("border-radius","20px")

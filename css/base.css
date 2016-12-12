@@ -840,32 +840,61 @@ textarea {
 	align-content: center;
 }
 
+#racialComparisonRow {
+	width: 100%;
+	max-width: none;
+	margin: 0 auto;
+}
+
+#racialComparisonRow {
+	border-top: 2px solid red;
+}
+
 /*
  * Filters for Racial Comparison Chart
  */
 
-#aapiButton {
-	background-color: #4caf50; /* Green */
-	border: 1px solid green;
-	border-radius: 5px;
-	color: white;
-	padding: 7px 10px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 12px;
-	cursor: pointer;
-	float: left;
+#ageFilter h4 {
+	display: inline;
 }
 
-#aapiButton:hover {
-	background-color: #3e8e41;
+#ageFilter #rangeSlider {
+	display: inline;
+	font-size: medium;
 }
 
-#aapiButton.active {
-	background-color: #14598e;
+#ageFilter .filterlabel {
+	padding-bottom: 5px;
+}
+
+#sliderAge {
+	width: 200px;
+}
+
+#sliderAge .ui-state-default:first-of-type, .ui-widget-content .ui-state-default:first-of-type, .ui-widget-header .ui-state-default:first-of-type {
+	background: lightblue;
+}
+
+#sliderAge .ui-state-default:last-of-type, .ui-widget-content .ui-state-default:last-of-type, .ui-widget-header .ui-state-default:last-of-type {
+	background: lightblue;
+}
+
+.ui-slider .ui-slider-range {
+	background: lightgreen;
 }
 
 .container-fluid{
 	background-color: white;
+}
+
+.natMHLineLabel {
+	font-size: smaller;
+}
+
+#step2RacialCompRow {
+	padding-left: 20px;
+}
+
+#mentalHealthFilter {
+	display: inline;
 }
