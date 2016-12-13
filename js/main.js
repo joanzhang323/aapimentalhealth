@@ -465,17 +465,26 @@ $("#incomeSlider").slider({
 	values: [0, 80000],
 	step: 10000,
 	slide: function (event, ui) {
-		$("#rangeIncomeSlider").html("$" + ui.values[0].toLocaleString() + " - $" + (ui.values[1] - 1).toLocaleString());
+		$("#rangeIncomeSlider").html(function () {
+			if (ui.values[1] == 80000) {
+				return ("$" + ui.values[0].toLocaleString() + " - $" + (ui.values[1] - 1).toLocaleString() + "+");
+			} else {
+				return ("$" + ui.values[0].toLocaleString() + " - $" + (ui.values[1] - 1).toLocaleString());
+			}
+		});
 	},
 	stop: function (event, ui) {
 		$("#rangeIncomeSlider").on("sliderchange", selectionChanged());
 	}
 });
 
-$("#rangeIncomeSlider")
-	.html("$" + $("#incomeSlider").slider("values", 0).toLocaleString() + " - $" + ($( "#incomeSlider").slider("values", 1) - 1).toLocaleString());
-
-
+$("#rangeIncomeSlider").html(function () {
+	if ($( "#incomeSlider").slider("values", 1) == 80000) {
+		return ("$" + $("#incomeSlider").slider("values", 0).toLocaleString() + " - $" + ($( "#incomeSlider").slider("values", 1) - 1).toLocaleString() + "+");
+	} else {
+		return ("$" + $("#incomeSlider").slider("values", 0).toLocaleString() + " - $" + ($( "#incomeSlider").slider("values", 1) - 1).toLocaleString());
+	}
+});
 
 /*
  * Get values from checkboxes

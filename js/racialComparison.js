@@ -36,10 +36,46 @@ RacialComparison.prototype.initVis = function() {
 
     // SVG drawing area
     vis.svg = d3.select("#" + vis.parentElement).append("svg")
-            .attr("width", vis.width + vis.margin.left + vis.margin.right)
-            .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+        .attr("width", vis.width + vis.margin.left + vis.margin.right)
+        .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
         .append("g")
-            .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+        .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+
+
+    // Set radius
+    vis.radius = 5;
+
+    // Append legend
+    var legendCode = [
+        ["green", "Has mental health"],
+        ["red", "Depression"],
+        ["blue", "Suicide"],
+        ["purple", "Substance Abuse"]
+    ];
+
+    var legend = vis.svg.selectAll(".legend")
+        .data(legendCode);
+
+    legend.exit().remove();
+
+    var legendEnter = legend.enter().append("g")
+        .attr("class", "legendRow");
+
+    legend
+        .attr("transform", function (d, index) {
+            return "translate(0," + (vis.height/3 + index*20) + ")";
+        });
+
+    var legendCircle = legendEnter.append("circle")
+        .attr("cx", vis.radius + 2)
+        .attr("r", vis.radius + 2)
+        .attr("fill", function (d) { return d[0]; });
+
+    var legendText = legendEnter.append("text")
+        .attr("class", "legendText")
+        .attr("x", (vis.radius + 2)*2 + vis.radius)
+        .attr("y", vis.radius - 2)
+        .text(function (d) { return (" = " + d[1]); });
 
 
     vis.wrangleData();
@@ -118,9 +154,8 @@ RacialComparison.prototype.wrangleData = function() {
             });
             //console.log(numMH);
 
-            console.log(contains(arrayStorage, raceName));
+            //console.log(contains(arrayStorage, raceName));
             if (contains(arrayStorage, raceName)) {
-                console.log("hasownprop");
                 // if race object has been added to arrayStorage, then update data and percent
                 var objRace;
                 arrayStorage.forEach(function (race, ind) {
@@ -133,7 +168,6 @@ RacialComparison.prototype.wrangleData = function() {
                 objRace.percent += percentage;
                 objRace.data = objRace.data.concat(newDataPoints);
             } else {
-                console.log("new!");
                 // if race object hasn't been added to arrayStorage yet,
                 // then add the race object with the total, race name, percentage, and array of datapoints
                 var objStorage = {};
@@ -151,7 +185,7 @@ RacialComparison.prototype.wrangleData = function() {
                 //console.log(arrayStorage);
             }
         });
-        console.log(arrayStorage);
+        //console.log(arrayStorage);
 
     });
 
@@ -211,15 +245,6 @@ RacialComparison.prototype.wrangleData = function() {
             var objAA = arrayStorage[indexAA];
             var objPI = arrayStorage[indexPI];
             var totalAAPI = objAA.total + objPI.total;
-            console.log(totalAAPI);
-            var asd = 0;
-            vis.filteredData.forEach(function (d) {
-                if (d.RACEGRP == 5) {
-                    asd++;
-                }
-            });
-            console.log(asd);
-            console.log(asd == totalAAPI);
             percentAAPI = (objAA.percent + objPI.percent)/2;
 
             vis.mhSelection.forEach(function (mh) {
@@ -233,17 +258,17 @@ RacialComparison.prototype.wrangleData = function() {
                 for (var j = 0; j < percentMH*indexHeight; j++) { dataAAPI.push(color[mh]); }
             });
             /*
-            vis.mhFilter.forEach(function (mh) {
-                var counter = 0;
-                vis.filteredData.forEach(function (d) {
-                    if ((d.RACEGRP == 5) && (d[mh] == "1")) {
-                        counter++;
-                    }
-                });
-                var percentMH = Math.round(counter/totalAAPI*100);
-                for (var j = 0; j < percentMH*indexHeight; j++) { dataAAPI.push(1); }
-            });
-            */
+             vis.mhFilter.forEach(function (mh) {
+             var counter = 0;
+             vis.filteredData.forEach(function (d) {
+             if ((d.RACEGRP == 5) && (d[mh] == "1")) {
+             counter++;
+             }
+             });
+             var percentMH = Math.round(counter/totalAAPI*100);
+             for (var j = 0; j < percentMH*indexHeight; j++) { dataAAPI.push(1); }
+             });
+             */
 
             //console.log(dataAAPI);
         } else if ((indexAA !== -1) && (indexPI == -1)) {
@@ -298,13 +323,13 @@ RacialComparison.prototype.wrangleData = function() {
 
 RacialComparison.prototype.updateVis = function() {
     var vis = this;
-    var radius = 5,
-        circlesPerRow = 10,
+    var circlesPerRow = 10,
         circlesPerColumn = 20,
-        totalChartSpace = radius * circlesPerRow * 2.35,
+        totalChartSpace = vis.radius * circlesPerRow * 2.35,
         numOfCharts = vis.displayData.length,
-        heightOfChart = circlesPerColumn*2*radius,
-        spaceBetweenAAPIAndRest = 30;
+        heightOfChart = circlesPerColumn*2*vis.radius,
+        spaceBetweenAAPIAndRest = 30,
+        legendWidth = 165;
 
     var colorCode = {
         1: "green",
@@ -328,12 +353,11 @@ RacialComparison.prototype.updateVis = function() {
         .duration(1500)
         .attr("transform", function (d, index) {
             if (d.name == "AAPI") {
-                return "translate(" + (index * totalChartSpace) + ",0)";
+                return "translate(" + (legendWidth + index * totalChartSpace) + ",0)";
             } else {
-                return "translate(" + (index * totalChartSpace + spaceBetweenAAPIAndRest) + ",0)";
+                return "translate(" + (legendWidth + index * totalChartSpace + spaceBetweenAAPIAndRest) + ",0)";
             }
         });
-
 
     // Append group-elements for each cell in race chart
     var raceCircle = raceChart.selectAll(".raceCircle")
@@ -342,15 +366,15 @@ RacialComparison.prototype.updateVis = function() {
     raceCircle.enter().append("circle")
         .attr("class", "raceCircle")
         .attr("opacity", 0.5)
-        .attr("r", radius);
+        .attr("r", vis.radius);
 
     raceCircle.exit().remove();
 
     raceCircle
         .transition()
         .duration(1500)
-        .attr("cy", function (d, index) { return vis.height - Math.floor((index/circlesPerRow))*2*radius - radius; })
-        .attr("cx", function (d, index) { return index%circlesPerRow*2*radius + radius; })
+        .attr("cy", function (d, index) { return vis.height - Math.floor((index/circlesPerRow))*2*vis.radius - vis.radius; })
+        .attr("cx", function (d, index) { return index%circlesPerRow*2*vis.radius + vis.radius; })
         .attr("fill", function (d) {
             if (d !== 0) {
                 return colorCode[d];
@@ -358,10 +382,10 @@ RacialComparison.prototype.updateVis = function() {
                 return "gray";
             }
         });
-        //.on("mouseover", function(d) {});
-        //on("mouseout", function(d) {});
+    //.on("mouseover", function(d) {});
+    //on("mouseout", function(d) {});
 
-    // Append labels
+    // Append race labels
     var raceLabel = raceChartEnter.append("text")
         .attr("class", "raceLabel");
 
@@ -369,7 +393,19 @@ RacialComparison.prototype.updateVis = function() {
         .text(function (d) { return d.name; })
         .attr("text-anchor", "middle")
         .attr("y", vis.height + 20)
-        .attr("x", radius*circlesPerRow);
+        .attr("x", vis.radius*circlesPerRow);
+
+    // Append percent labels
+    var percentLabel = raceChartEnter.append("text")
+        .attr("class", "percentLabel");
+
+    raceChart.select(".percentLabel")
+        .transition()
+        .delay(1000)
+        .text(function (d) { return (d.percent.toFixed(2) + "%"); })
+        .attr("text-anchor", "middle")
+        .attr("y", vis.height - circlesPerColumn*vis.radius*2 - 20)
+        .attr("x", vis.radius*circlesPerRow);
 
 
     // Append line to indicate national mental health line
@@ -384,7 +420,7 @@ RacialComparison.prototype.updateVis = function() {
     natMH
         .transition()
         .attr("transform", function (d) {
-            return "translate(0," + (vis.height - heightOfChart*d/100 -2) + ")";
+            return "translate(" + legendWidth + "," + (vis.height - heightOfChart*d/100 -2) + ")";
         });
 
     var natMHLine = natMHEnter.append("line")
@@ -396,36 +432,16 @@ RacialComparison.prototype.updateVis = function() {
         .attr("stroke", "black");
 
     natMH.select(".natMHLine")
-        .attr("x2", function (d) { return ((numOfCharts + 1) * totalChartSpace + spaceBetweenAAPIAndRest);});
+        .attr("x2", function (d) { return ((numOfCharts + 1) * totalChartSpace + spaceBetweenAAPIAndRest + 5);});
 
     var natMHLineLabel = natMHEnter.append("text")
         .attr("class", "natMHLineLabel")
         .attr("y", -2);
 
     natMH.select(".natMHLineLabel")
-        .attr("x", (numOfCharts * totalChartSpace + spaceBetweenAAPIAndRest) - radius*circlesPerRow/4)
+        .attr("x", (numOfCharts * totalChartSpace + spaceBetweenAAPIAndRest) - vis.radius*circlesPerRow/4)
         .text(function (d) { return "National Average: " + d.toFixed(2) + "%";});
 
-/*
-    // Append text giving percentages based on filtered population
-    var racePercentSent = vis.svg.selectAll("#racePercentSent")
-        .data([{
-            percent: vis.nationalMHAvg,
-            age: "18 to 73"
-        }]);
-
-    racePercentSent.exit().remove();
-
-    racePercentSent.enter().append("text")
-        .attr("id", "racePercentSent")
-        .attr("x", circlesPerRow*radius)
-        .attr("y", vis.height - circlesPerColumn*radius*2 - circlesPerRow*radius/2);
-
-    racePercentSent
-        .text(function (d) {
-            return d.toFixed(2) + "% of the " ;
-        });
-*/
 
     // Append percent label tooltips
     var racePercent = raceChartEnter.append("svg:title")
@@ -454,13 +470,13 @@ RacialComparison.prototype.onSelectionChange = function(selected) {
     /*
      * Debug
      *
-    var testing = d3.nest()
-        .key(function (d) {return d.EDUCCAT2})
-        .rollup(function(leaves) { return leaves.length; })
-        .entries(vis.data);
+     var testing = d3.nest()
+     .key(function (d) {return d.EDUCCAT2})
+     .rollup(function(leaves) { return leaves.length; })
+     .entries(vis.data);
 
-    console.log(testing);
-    */
+     console.log(testing);
+     */
 
     // Filter data for selections
     vis.filteredData = vis.data.filter(function(person) {
@@ -488,20 +504,20 @@ RacialComparison.prototype.onSelectionChange = function(selected) {
     /*
      * Debug
      *
-    var testing = d3.nest()
-        .key(function (d) {return d.EDUCCAT2})
-        .rollup(function(leaves) { return leaves.length; })
-        .entries(vis.filteredData);
+     var testing = d3.nest()
+     .key(function (d) {return d.EDUCCAT2})
+     .rollup(function(leaves) { return leaves.length; })
+     .entries(vis.filteredData);
 
-    console.log(testing);
-    */
+     console.log(testing);
+     */
 
     /* Optional - decide
-    // If no data for selections, then display error dialog
-    if (vis.filteredData.length == 0) {
-        $("#dialogRacialComparison").removeClass("hidden");
-    }
-    */
+     // If no data for selections, then display error dialog
+     if (vis.filteredData.length == 0) {
+     $("#dialogRacialComparison").removeClass("hidden");
+     }
+     */
 
 
     // Save variable for the mental health filter selection
@@ -524,27 +540,27 @@ RacialComparison.prototype.onSelectionChange = function(selected) {
     console.log(vis.mhSelection);
 
     /*
-    var varMH = [
-        ["AMIYR_U","1"],
-        ["AMDEYR", "2"],
-        ["MHSUITHK", "3"],
-        ["ABODILAL", "4"]
-    ];
+     var varMH = [
+     ["AMIYR_U","1"],
+     ["AMDEYR", "2"],
+     ["MHSUITHK", "3"],
+     ["ABODILAL", "4"]
+     ];
 
-    vis.mhFilter.length = 0;
+     vis.mhFilter.length = 0;
 
-    varMH.forEach(function (d) {
-        if (selected.hasOwnProperty(d[1])) {
-            vis.mhFilter.push(d[0]);
-        }
-    });
+     varMH.forEach(function (d) {
+     if (selected.hasOwnProperty(d[1])) {
+     vis.mhFilter.push(d[0]);
+     }
+     });
 
-    if (vis.mhFilter.length == 0) {
-        vis.mhFilter.push("AMIYR_U");
-    }
+     if (vis.mhFilter.length == 0) {
+     vis.mhFilter.push("AMIYR_U");
+     }
 
-    console.log(vis.mhFilter);
-    */
+     console.log(vis.mhFilter);
+     */
 
 
     vis.wrangleData();
