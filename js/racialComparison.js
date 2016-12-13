@@ -47,7 +47,7 @@ RacialComparison.prototype.initVis = function() {
 
     // Append legend
     var legendCode = [
-        ["green", "Has mental health"],
+        ["green", "Has mental illness"],
         ["red", "Depression"],
         ["blue", "Suicide"],
         ["purple", "Substance Abuse"]

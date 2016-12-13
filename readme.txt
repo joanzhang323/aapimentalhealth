@@ -1,130 +1,46 @@
+README.TXT FILE FOR AAPI MENTAL FINAL PROJECT for CS 171 - FALL 2016
 
-==================================================================================================
+OUR CODE:
+-index.html: contains outline for the website structure and layout
+    -Also contains code for our various other visualization aspects including our gallery of images that and carousel displaying
+        the compiled images from our peers.
+-racialComparison.js: Code for our first visualization comparing the mental health prevalence among different demographic groups
+-suicideChart.js: second visualization showing a suicide process model and how various interventions can potentially shift people from
+                    losing their life to suicide to saving their lives from the intervention. The squares were shifted based on whether the
+                    individual from our data set had 1) suicidal thoughts 2) suicide plans or 3) suicide attempts. The first intervention shifts
+                    individuals from the first and second category because talking to a friend may likely to not only alleviate suicidal thoughts,
+                    but also prevent those individuals from later forming suicidal plans. The second button moves individuals from all three categories
+                    because seeing a professional therapist at any stage can potentially help prevent individuals at any point in the suicide process.
+                    The third button/intervention only moves individuals from the third group (suicide attempt), because this intervention is typically
+                    not utilized until an emergency is in place and is less preventative, but equally vital at the most severe level.
 
-ELEVATE is a responsive landing page website template designed to promote and generate leads for 
-your products or service. Elevate has a modern, clean, and professional design that makes it an 
-ideal landing page for your product and service. It is mobile and retina ready which means it 
-will adapt on any device and will look sharp and crisp on any device screens. Other features of 
-the template are scroll-based animations, hundreds of webfont icons, MailChimp integration 
-and much more. Elevate is built with CSS3, HTML5 and jQuery. It has a clean and organized code 
-and is very easy to customize. If you are looking for a free landing page with premium features 
-then Elevate is the right website template for you.
+-main.js: instatiates our visualizations and calls when updates are made (i.e. filters selected, buttons clicked, etc.)
 
-==================================================================================================
+IMAGES
+-Compiled images of our peers (both female and male)
 
+LIBRARIES:
+-bootstrap.min.js
+-d3.min.js
+-d3-tip.js
+-jquery.min.js
+-jquery-2.1.3.min.js
+-modernizr.js
+-pace.min.js
+-plugins.js
+-queue.v1.min.js
+-slick.min.js: used to create our carousel of news articles
+-FONTS
 
-LICENSE:
+CSS
+Most css were existing libraries, and we made additional edits/updates to the following:
+-base.css
+-main.css
+-slick.css
 
-ELEVATE is released under the Creative Commons Attribution 3.0 License
-(http://creativecommons.org/licenses/by/3.0/). This means that you are free:
+URLS
+Project Website: https://joanzhang323.github.io/aapimentalhealth/
 
-   to Share - to copy, distribute, display, and perform the work
-   to Remix - to make derivative works
-   to make commercial use of the work 
+Screencast (abridged explanation):
 
-Under the following conditions:
-
-   Attribution - You must attribute the work in the manner specified by the 
-   author or licensor (but not in any way that suggests that they endorse you 
-   or your use of the work). 
-
-   For any reuse or distribution, you must make clear to others the license 
-   terms of this work
-
-   Any of these conditions can be waived if you get permission from the 
-   copyright holder
-
-Attribution: 
-	
-   You must include a credit link to our website(http://www.Styleshout.com) somewhere on
-   your site. We prefer the footer credit that comes with the template but you are still 
-   free to move it somewhere else.
-
-
------------------------------------------------------------------------------------------------------
-
-
-REMOVING THE LINK:
-
-We understand that there are situations where you want to use the template without the 
-crediting obligation. If that's your case, you can always send us a 
-credit removal fee of 10 USD through Paypal. This will allow you to use the 
-template attribution/credit link free on ONE DOMAIN name. 
-
-You can send your payments through Paypal to this address: ealigam@gmail.com
-
-If possible, kindly send us the site's url where the template is being used. 
-Also, keep your Paypal receipt as proof of payment and your good to go.
-
-
------------------------------------------------------------------------------------------------------- 
-
-
-SUPPORT:
-    
-Since ELEVATE is distributed for free, support is not offered. ELEVATE is coded according 
-to current web standards and we did our best to make the template easy to use and modify.
-If you have minimum web development experience, you can easily modify the template. 
-However, If you're still new to HTML and CSS, I suggest that you visit the 
-following tutorials:
-
- - http://tutsplus.com/course/30-days-to-learn-html-and-css/
- - http://learn.shayhowe.com/html-css/
-
-These will teach you the essentials of HTML and CSS. In addition, if you want to include
-jQuery in your skill-set, you can also check out these tutorials: 
-
- - http://code.tutsplus.com/courses/30-days-to-learn-jquery
- - http://try.jquery.com/
-
-
------------------------------------------------------------------------------------------------------- 
-
-
-GET THE LATEST VERSION:
-
-We update our templates on a regular basis so to make sure that you have the latest version, 
-always download the template files directly on our website(http://www.styleshout.com/)
-
-
-
--------------------------------------------------------------------------------------------------------
-
-
-SOURCES AND CREDITS:
-
-I've used the following resources as listed.
-
-Fonts:
- - Roboto Font (https://www.google.com/fonts/specimen/Roboto)
- - Domine Font (https://www.google.com/fonts/specimen/Domine) 
-
-Icons:
- - Font Awesome (http://fortawesome.github.io/Font-Awesome/)
- - Nova: 350 Free Material Style Icons (http://www.webalys.com/nova/free-icons.html)
- - Nova webfont generated by ICOMOON (https://icomoon.io/)
-
-Stock Photos and Graphics:
- - Pexels.com (https://www.pexels.com/)
- - Picjumbo.com (https://picjumbo.com/)
- - Free Chat Dashboard PSD (https://dribbble.com/shots/2434528-IM-Chat-Dashboard-PSD) 
- 
-Javascript Files:
-
- - JQuery (http://jquery.com/)
- - Modernizr (http://modernizr.com/)
- - Waypoints (http://imakewebthings.com/jquery-waypoints/)
- - jQuery Placeholder (https://github.com/mathiasbynens/jquery-placeholder)
- - FitVids (http://fitvidsjs.com/)
- - pace js (http://github.hubspot.com/pace/)
- - Flexslider (http://flexslider.woothemes.com/) 
-
-
- 
-
---------------------------------------------------------------------------------------------------------- 
-
-
-Thanks for downloading from Styleshout :)
-  
-
+Full Explanation of website: https://www.youtube.com/watch?v=tGZe-FtL_ds
